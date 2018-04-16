@@ -1,0 +1,21 @@
+{
+  "name": "mpweb/blog",
+  "require": {
+    "php": ">=7.0"
+  },
+  "require-dev": {
+    "behat/behat": "^3.4",
+    "phpunit/phpunit": "^7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Blog\\": "src/Blog/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "BlogUnit\\": "test/BlogUnit/",
+      "BlogIntegration\\": "test/BlogIntegration/"
+    }
+  }
+}

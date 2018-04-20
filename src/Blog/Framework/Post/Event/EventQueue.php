@@ -1,6 +1,6 @@
 <?php
 
-namespace Blog\Events;
+namespace Blog\Framework\Post\Event;
 
 interface EventQueue
 {

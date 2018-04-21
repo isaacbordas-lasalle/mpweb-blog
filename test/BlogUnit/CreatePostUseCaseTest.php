@@ -6,8 +6,7 @@ use Blog\Domain\User;
 use PHPUnit\Framework\TestCase;
 use Blog\Domain\Post;
 use Blog\Domain\Repository\PostRepository;
-use Blog\Framework\Post\Event\EventQueue;
-use Blog\Application\CommandHandler\CreatePostHandler;
+use Blog\Domain\Repository\UserRepository;
 
 class CreatePostTest extends TestCase
 {
@@ -15,29 +14,29 @@ class CreatePostTest extends TestCase
     const VALID_CONTENT = "Some Content";
 
     private $postRepository;
-    private $commandPost;
-    private $eventQueue;
+    private $userRepository;
+    private $user;
     private $post;
 
     protected function setUp()
     {
         $this->postRepository = $this->createMock(PostRepository::class);
-        $this->eventQueue = $this->createMock(EventQueue::class);
+        $this->userRepository = $this->createMock(UserRepository::class);
+        $this->user = $this->createMock(User::class);
 
     }
     protected function tearDown()
     {
         $this->post = null;
-        $this->commandPost = null;
+        $this->user = null;
+        $this->userRepository = null;
         $this->postRepository = null;
-        $this->eventQueue = null;
     }
 
     /** @test */
     public function shouldPersistAPostOneTimeIfItDoesNotExist()
     {
-        $command = new CreatePostHandler($this->postRepository, $this->eventQueue, $this->eventQueue);
-        $result = new Post(self::VALID_TITLE, self::VALID_CONTENT, true, User::class);
+        $result = new Post(self::VALID_TITLE, self::VALID_CONTENT, true, $this->user);
         $this->assertObjectHasAttribute('title', $result);
     }
 }

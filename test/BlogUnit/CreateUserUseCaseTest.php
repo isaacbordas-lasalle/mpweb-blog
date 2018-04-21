@@ -24,11 +24,21 @@ class CreateUserUseCaseTestt extends TestCase
         $this->userRepository = null;
     }
 
-    /** @test */
-    public function shouldPersistAUser()
+    /**
+     * @dataProvider createUserProvider
+     */
+    public function shouldPersistAUser($email, $password)
     {
         //data provider
-        $result = new User(self::VALID_TITLE, self::VALID_CONTENT);
-        $this->assertObjectHasAttribute('title', $result);
+        $result = new User($email, $password);
+        $this->assertObjectHasAttribute('email', $result);
+    }
+
+    public function createUserProvider()
+    {
+        return [
+            ['aaa@aaa.es', 'aaaa'],
+            [0, 1]
+        ];
     }
 }

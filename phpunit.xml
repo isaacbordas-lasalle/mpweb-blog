@@ -15,7 +15,7 @@
 
     <testsuites>
         <testsuite name="blog">
-            <directory>test/MpwebUnit/Blog</directory>
+            <directory>test/BlogUnit</directory>
         </testsuite>
     </testsuites>
 

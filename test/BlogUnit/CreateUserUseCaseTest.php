@@ -25,20 +25,38 @@ class CreateUserUseCaseTestt extends TestCase
     }
 
     /**
-     * @dataProvider createUserProvider
+     * @test
+     * @dataProvider shouldPersistUserDataProvider
      */
-    public function shouldPersistAUser($email, $password)
+    public function shouldPersistUser($email, $password)
     {
-        //data provider
         $result = new User($email, $password);
         $this->assertObjectHasAttribute('email', $result);
     }
 
-    public function createUserProvider()
+    public function shouldPersistUserDataProvider()
     {
         return [
-            ['aaa@aaa.es', 'aaaa'],
-            [0, 1]
+            'password and email ok' => ['aaa@aa.es', 'dg4gghfdfsdf5ddf']
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider shouldNotPersistUserDataProvider
+     */
+    public function shouldNotPersistUser($email, $password, $expectedException)
+    {
+        $this->expectException($expectedException);
+        $result = new User($email, $password);
+    }
+
+    public function shouldNotPersistUserDataProvider()
+    {
+        return [
+            'password invalid format' => ['aaa@aaa.es', 'aaaa', 'Blog\Domain\Exception\InvalidPasswordFormatException'],
+            'password invalid length' => [0, 1, 'Blog\Domain\Exception\InvalidEmailFormatException'],
+            'email invalid format' => ['ddd', 'dg4gghfdfsdf5ddf', 'Blog\Domain\Exception\InvalidEmailFormatException']
         ];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Blog\Domain;
 
-use Blog\Domain\Exception\{InvalidEmailLengthException, InvalidPasswordLengthException, InvalidPasswordFormatException};
+use Blog\Domain\Exception\{InvalidEmailLengthException, InvalidEmailFormatException, InvalidPasswordLengthException, InvalidPasswordFormatException};
 
 class User
 {
@@ -21,6 +21,7 @@ class User
     private function validateEmail(string $email)
     {
         if ($email == '') throw InvalidEmailLengthException::empty();
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) throw InvalidEmailFormatException::empty();
     }
 
     private function validatePassword(string $password)

@@ -55,8 +55,9 @@ class CreateUserUseCaseTestt extends TestCase
     {
         return [
             'password invalid format' => ['aaa@aaa.es', 'aaaa', 'Blog\Domain\Exception\InvalidPasswordFormatException'],
-            'password invalid length' => [0, 1, 'Blog\Domain\Exception\InvalidEmailFormatException'],
-            'email invalid format' => ['ddd', 'dg4gghfdfsdf5ddf', 'Blog\Domain\Exception\InvalidEmailFormatException']
+            'password invalid length' => ['aaa@aaa.es', 'aa1', 'Blog\Domain\Exception\InvalidPasswordLengthException'],
+            'email invalid format' => ['ddd', 'dg4gghfdfsdf5ddf', 'Blog\Domain\Exception\InvalidEmailFormatException'],
+            'email invalid length' => ['', 'dg4gghfdfsdf5ddf', 'Blog\Domain\Exception\InvalidEmailLengthException']
         ];
     }
 }

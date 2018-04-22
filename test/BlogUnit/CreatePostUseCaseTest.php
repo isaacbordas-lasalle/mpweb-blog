@@ -39,4 +39,12 @@ class CreatePostTest extends TestCase
         $result = new Post(self::VALID_TITLE, self::VALID_CONTENT, true, $this->user);
         $this->assertObjectHasAttribute('title', $result);
     }
+
+    /** @test */
+    public function shouldThrowExceptionIfAPostDontHaveUser()
+    {
+        $this->expectException('Blog\Domain\Exception\UserNoExistException');
+        $result = new Post(self::VALID_TITLE, self::VALID_CONTENT, true, $this->user);
+
+    }
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Blog\Domain\Exception;
-
 
 class UserNoExistException extends InvalidArgumentException
 {

@@ -1,0 +1,5 @@
+default:
+  autoload:
+    '': '%paths.base%/features/bootstrap'
+  formatters:
+    pretty: true

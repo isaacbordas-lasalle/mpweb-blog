@@ -27,12 +27,12 @@ class Post
 
     private function validateTitleLength(string $title)
     {
-        if (strlen($title) > 50) throw InvalidTitleLengthException::empty();
+        if (strlen($title) > 50 || strlen($title) < 1) throw InvalidTitleLengthException::empty();
     }
 
     private function validateBodyLength(string $body)
     {
-        if (strlen($body) > 2000) throw InvalidBodyLengthException::empty();
+        if (strlen($body) > 2000 || strlen($body) < 1) throw InvalidBodyLengthException::empty();
     }
 
     private function validateUser(User $user)

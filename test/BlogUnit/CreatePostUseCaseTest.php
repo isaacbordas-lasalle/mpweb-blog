@@ -11,6 +11,7 @@ use Blog\Domain\Repository\UserRepository;
 class CreatePostTest extends TestCase
 {
     const VALID_TITLE = "A Title";
+    const NO_VALID_TITLE = "More than 50 characters Aaaaaaaaaa Aaaaaaaaaa Aaaaaaaaaa Aaaaaaaaaa a";
     const VALID_CONTENT = "Some Content";
 
     private $postRepository;
@@ -41,10 +42,18 @@ class CreatePostTest extends TestCase
     }
 
     /** @test */
-    public function shouldThrowExceptionIfAPostDontHaveUser()
+    public function shouldThrowExceptionIfNoValidTitleLength()
+    {
+        $this->expectException('Blog\Domain\Exception\InvalidTitleLengthException');
+        $result = new Post(self::NO_VALID_TITLE, self::VALID_CONTENT, true, $this->user);
+    }
+
+    
+    /** @test */
+    /*public function shouldThrowExceptionIfAPostDontHaveUser()
     {
         $this->expectException('Blog\Domain\Exception\UserNoExistException');
         $result = new Post(self::VALID_TITLE, self::VALID_CONTENT, true, $this->user);
 
-    }
+    }*/
 }

@@ -2,7 +2,7 @@
 
 namespace Blog\Domain;
 
-use Blog\Domain\Exception\{InvalidTitleLengthException, InvalidBodyLengthException};
+use Blog\Domain\Exception\{InvalidTitleLengthException, InvalidBodyLengthException, UserNoExistException};
 
 class Post
 {
@@ -22,6 +22,7 @@ class Post
 
         $this->validateTitleLength($title);
         $this->validateBodyLength($body);
+        $this->validateUser($user);
     }
 
     private function validateTitleLength(string $title)
@@ -32,6 +33,11 @@ class Post
     private function validateBodyLength(string $body)
     {
         if (strlen($body) > 2000) throw InvalidBodyLengthException::empty();
+    }
+
+    private function validateUser(User $user)
+    {
+        if (empty($user)) throw UserNoExistException::empty();
     }
 
     public function getId() : int

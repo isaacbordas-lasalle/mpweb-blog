@@ -9,7 +9,6 @@ use Blog\Domain\Repository\PostRepository;
 use Blog\Domain\Repository\UserRepository;
 use Blog\Application\Command\CreatePostCommand;
 use Blog\Application\CommandHandler\CreatePostHandler;
-use Blog\Framework\Post\Event\EventQueue;
 use Blog\Framework\Post\Event\PostCreatedEvent;
 use Blog\Framework\Post\Event\PostEvent;
 
@@ -18,7 +17,7 @@ class CreatePostTest extends TestCase
 
     private $postRepository;
     private $userRepository;
-    private $eventQueue;
+    private $postEvent;
     private $user;
     private $post;
     private $postCreatedEvent;
@@ -27,7 +26,7 @@ class CreatePostTest extends TestCase
     {
         $this->postRepository = $this->createMock(PostRepository::class);
         $this->userRepository = $this->createMock(UserRepository::class);
-        $this->eventQueue = $this->createMock(PostEvent::class);
+        $this->postEvent = $this->createMock(PostEvent::class);
         $this->postCreatedEvent = $this->createMock(PostCreatedEvent::class);
         $this->user = $this->createMock(User::class);
 
@@ -38,7 +37,7 @@ class CreatePostTest extends TestCase
         $this->user = null;
         $this->userRepository = null;
         $this->postRepository = null;
-        $this->eventQueue = null;
+        $this->postEvent = null;
         $this->postCreatedEvent = null;
     }
 
@@ -52,11 +51,19 @@ class CreatePostTest extends TestCase
     /** @test */
     public function shouldCreateEventWhenPublishPost()
     {
-        $postCommand = new CreatePostCommand('Valid title', 'Valid content', true, 1);
+        $stub = $this->postCreatedEvent;
+        $stub->method('onPostCreate')
+            ->willReturn(true);
+        $this->assertTrue(true, $stub->onPostCreate($this->postEvent));
+    }
+
+    /** @test */
+    public function shouldThrowExceptionIfNoValidUser()
+    {
+        $postCommand = new CreatePostCommand('Valid title', 'Valid content', true, 0);
         $postHandler = new CreatePostHandler($this->postRepository, $this->userRepository, $this->postCreatedEvent);
+        $this->expectException('\Blog\Domain\Exception\UserNoExistException');
         $post = $postHandler->handle($postCommand);
-        $result = $this->postCreatedEvent->onPostCreate(new PostEvent($post));
-        $this->assertTrue($result);
     }
 
     /**

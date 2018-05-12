@@ -3,3 +3,11 @@ default:
     '': '%paths.base%/features/bootstrap'
   formatters:
     pretty: true
+  suites:
+    default:
+      contexts:
+        - FeatureContext:
+            email: 'test@email.com'
+            password: 'dg4gghfdfsdf5ddf'
+            title: 'Valid title'
+            body: 'Valid body'

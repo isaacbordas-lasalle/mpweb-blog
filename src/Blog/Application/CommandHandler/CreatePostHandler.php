@@ -6,7 +6,7 @@ use Blog\Application\Command\CreatePostCommand;
 use Blog\Domain\Post;
 use Blog\Domain\Repository\PostRepository;
 use Blog\Domain\Repository\UserRepository;
-use Blog\Framework\Post\Event\EventQueue;
+use Blog\Framework\Post\Event\PostCreatedEvent;
 use Blog\Framework\Post\Event\PostEvent;
 use Blog\Domain\Exception\{InvalidTitleLengthException, PostExistsException, InvalidBodyLengthException, UserNoExistException};
 
@@ -16,7 +16,7 @@ class CreatePostHandler
     private $userRepository;
     private $eventQueue;
 
-    public function __construct(PostRepository $postRepository, UserRepository $userRepository, EventQueue $eventQueue)
+    public function __construct(PostRepository $postRepository, UserRepository $userRepository, PostCreatedEvent $eventQueue)
     {
         $this->postRepository = $postRepository;
         $this->userRepository = $userRepository;
@@ -35,7 +35,7 @@ class CreatePostHandler
 
         try {
             $this->postRepository->save($post);
-            if ($command->publish() === true) $this->eventQueue->publish(new PostEvent($post));
+            if ($command->publish() === true) $this->eventQueue->onPostCreate(new PostEvent($post));
         } catch (InvalidTitleLengthException $e) {
 
         } catch (InvalidBodyLengthException $e) {
